@@ -26,6 +26,15 @@ exports.getCommerce = async (req, res) => {
     }
 }
 
+exports.getCommerces = async (req, res) => {
+    try{
+        res.status(200).json(await commerce.getCommerces(req.id));
+
+    } catch(err) {
+        res.status(500).json({message: err.message});
+    }
+}
+
 exports.updateCommerce = async (req, res) => {
     try {
         await commerce.updateCommerce(req.id, req.params.commerce_id, [req.body, req.files]);

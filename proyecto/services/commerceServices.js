@@ -115,6 +115,10 @@ class CommerceServices {
             })
         await session.endSession();
     }
+
+    async getCommerces(id) {
+        return Commerce.find({ user_ID: id});
+    }
 }
 
 module.exports = CommerceServices;
