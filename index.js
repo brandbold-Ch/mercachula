@@ -1,9 +1,18 @@
 const express = require('express');
 const app = express();
+const cors = require("cors");
 const userRouter = require("./proyecto/api/routes/userRouter");
 const commerceRouter = require("./proyecto/api/routes/commerceRouter");
 const authRouter = require("./proyecto/api/routes/authRouter");
 const PORT = 5000;
+
+app.use(cors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204,
+    allowedHeaders: 'Content-Type,Authorization',
+}));
 
 app.get('/', (req, res) => {
     res.status(200).json({message: "Vienvenido a mercachula 🏪"});
