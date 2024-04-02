@@ -12,7 +12,7 @@ class CommerceServices {
             cloudinary.uploader.upload_stream({ resource_type: "auto" }, (error, result) => {
                 if (error) { reject(error); }
                 resolve({
-                    url: result["url"],
+                    url: result?.url,
                     id: result["public_id"]
                 });
             }).end(buffer);
@@ -30,35 +30,19 @@ class CommerceServices {
     async createCommerce(id, commerce_data) {
         const user_context = await User.findById(id);
         const session = await connect.startSession();
-        let output_data;
+        const newImage = await this.uploadImage(commerce_data[1]["buffer"]);
 
-        await session.withTransaction(async () =>{
-
-            await Commerce.create([
-                {
-                    user_ID: user_context["_id"],
-                    tipo: commerce_data[0]["tipo"],
-                    NombreComercio: commerce_data[0]["NombreComercio"],
-                    Descripcion: commerce_data[0]["Descripcion"],
-                    LinkUbicacion: commerce_data[0]["LinkUbicacion"],
-                    NumeroContacto: commerce_data[0]["NumeroContacto"]
-                }
-
-            ], { session })
-                .then((commerce) => {
-                    output_data = commerce;
-                });
-        })
-            .then(async () => {
-                const newImage = await this.uploadImage(commerce_data[1][0]["buffer"]);
-
-                await Commerce.updateOne(
-                    { _id: output_data[0]["_id"], user_ID :id},
-                    {$set: {image: newImage}},
-                    {runValidators: true}
-                );
-            });
-        await session.endSession();
+        await Commerce.create([
+            {
+                user_ID: user_context["_id"],
+                tipo: commerce_data[0]["tipo"],
+                NombreComercio: commerce_data[0]["NombreComercio"],
+                Descripcion: commerce_data[0]["Descripcion"],
+                LinkUbicacion: commerce_data[0]["LinkUbicacion"],
+                NumeroContacto: commerce_data[0]["NumeroContacto"],
+                image: newImage
+            }
+        ])
     }
 
     async getCommerce(id, commerce_id) {
@@ -118,6 +102,10 @@ class CommerceServices {
 
     async getCommerces(id) {
         return Commerce.find({ user_ID: id});
+    }
+
+    async getCommercesGeneral() {
+        return Commerce.find({});
     }
 }
 

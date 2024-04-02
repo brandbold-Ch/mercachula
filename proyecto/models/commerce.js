@@ -31,8 +31,7 @@ const commerceSchema = new Schema({
     },
     image: {
         type: Object,
-        required: false,
-        default: null
+        required: true
     }
 }, {
     versionKey: false

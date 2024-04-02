@@ -5,7 +5,7 @@ const commerce = new CommerceServices();
 
 exports.createCommerce = async (req, res) => {
     try {
-        await commerce.createCommerce(req.id, [req.body, req.files]);
+        await commerce.createCommerce(req.id, [JSON.parse(JSON.stringify(req.body)), req.files[0]]);
 
         res.status(201).json({
             message: "Added commerce",
@@ -29,6 +29,15 @@ exports.getCommerce = async (req, res) => {
 exports.getCommerces = async (req, res) => {
     try{
         res.status(200).json(await commerce.getCommerces(req.id));
+
+    } catch(err) {
+        res.status(500).json({message: err.message});
+    }
+}
+
+exports.getCommercesGeneral = async (req, res) => {
+    try{
+        res.status(200).json(await commerce.getCommercesGeneral());
 
     } catch(err) {
         res.status(500).json({message: err.message});
