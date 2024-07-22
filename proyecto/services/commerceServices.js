@@ -61,6 +61,7 @@ class CommerceServices {
                        user_ID: commerce_context["user_ID"],
                        tipo: commerce_data[0]["tipo"],
                        Descripcion: commerce_data[0]["Descripcion"],
+                       NombreComercio: commerce_data[0]["NombreComercio"],
                        LinkUbicacion: commerce_data[0]["LinkUbicacion"],
                        NumeroContacto: commerce_data[0]["NumeroContacto"],
                        image: commerce_context["image"]
