@@ -13,6 +13,9 @@ module.exports = {
         {
             "url": "http://localhost:5000"
         },
+        {
+            "url": "https://mercachula-api.vercel.app"
+        },
     ],
     "paths": {
         ...userDocs,
